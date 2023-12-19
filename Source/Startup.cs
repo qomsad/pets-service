@@ -1,6 +1,9 @@
 namespace PetsService;
 
+using Microsoft.EntityFrameworkCore;
 using PetsService.Config;
+using PetsService.Infrastructure;
+using Sieve.Services;
 
 public class Startup
 {
@@ -24,6 +27,11 @@ public class Startup
     services.AddControllers();
     services.ConfigureCors();
     services.ConfigureSwagger();
+
+    services.AddDbContext<DatabaseContext>(
+      options => options.UseNpgsql(this.Configuration.GetConnectionString("pets"))
+    );
+    services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
   }
 
   public void Configure(IApplicationBuilder app)
