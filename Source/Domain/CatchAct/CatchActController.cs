@@ -12,8 +12,8 @@ public class CatchActController(CatchActService service, IMapper mapper) : Contr
   public IActionResult Create([FromBody] CatchActView view)
   {
     var catchAct = mapper.Map<CatchAct>(view);
-    service.Create(catchAct);
-    return this.Ok();
+    var result = service.Create(catchAct);
+    return this.Ok(result);
   }
 
   [HttpGet("{id}")]
@@ -35,11 +35,11 @@ public class CatchActController(CatchActService service, IMapper mapper) : Contr
   {
     var catchAct = mapper.Map<CatchAct>(view);
     catchAct.Id = id;
-    service.Update(catchAct);
-    return this.Ok();
+    var result = service.Update(catchAct);
+    return this.Ok(result);
   }
 
-  [HttpDelete]
+  [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
     var catchAct = service.GetOne(id);

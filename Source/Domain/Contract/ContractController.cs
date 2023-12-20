@@ -12,8 +12,8 @@ public class ContractController(ContractService service, IMapper mapper) : Contr
   public IActionResult Create([FromBody] ContractView view)
   {
     var contract = mapper.Map<Contract>(view);
-    service.Create(contract);
-    return this.Ok();
+    var result = service.Create(contract);
+    return this.Ok(result);
   }
 
   [HttpGet("{id}")]
@@ -35,11 +35,11 @@ public class ContractController(ContractService service, IMapper mapper) : Contr
   {
     var contract = mapper.Map<Contract>(view);
     contract.Id = id;
-    service.Update(contract);
-    return this.Ok();
+    var result = service.Update(contract);
+    return this.Ok(result);
   }
 
-  [HttpDelete]
+  [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
     var contract = service.GetOne(id);

@@ -12,8 +12,8 @@ public class OrganizationController(OrganizationService service, IMapper mapper)
   public IActionResult Create([FromBody] OrganizationView view)
   {
     var organization = mapper.Map<Organization>(view);
-    service.Create(organization);
-    return this.Ok();
+    var result = service.Create(organization);
+    return this.Ok(result);
   }
 
   [HttpGet("{id}")]
@@ -35,11 +35,11 @@ public class OrganizationController(OrganizationService service, IMapper mapper)
   {
     var organization = mapper.Map<Organization>(view);
     organization.Id = id;
-    service.Update(organization);
-    return this.Ok();
+    var result = service.Update(organization);
+    return this.Ok(result);
   }
 
-  [HttpDelete]
+  [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
     var organization = service.GetOne(id);

@@ -7,7 +7,7 @@ using Sieve.Services;
 
 public class ReportMunicipalityService(DatabaseContext repository, ISieveProcessor sieve)
 {
-  public void Create(DateOnly from, DateOnly to, int number, long municipalityId)
+  public ReportMunicipality Create(DateOnly from, DateOnly to, int number, long municipalityId)
   {
     var acts = repository
       .CatchAct
@@ -53,6 +53,7 @@ public class ReportMunicipalityService(DatabaseContext repository, ISieveProcess
     };
     repository.ReportMunicipality.Add(report);
     repository.SaveChanges();
+    return report;
   }
 
   public void Delete(long id)

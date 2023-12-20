@@ -9,10 +9,11 @@ public abstract class BaseService<T>(DatabaseContext context, ISieveProcessor si
   protected DatabaseContext Context { get; } = context;
   protected ISieveProcessor Sieve { get; } = sieve;
 
-  public void Create(T entity)
+  public T Create(T entity)
   {
     this.Context.Add(entity);
     this.Context.SaveChanges();
+    return entity;
   }
 
   public abstract T? GetOne(long id);
@@ -25,9 +26,10 @@ public abstract class BaseService<T>(DatabaseContext context, ISieveProcessor si
     this.Context.SaveChanges();
   }
 
-  public void Update(T entity)
+  public T Update(T entity)
   {
     this.Context.Update(entity);
     this.Context.SaveChanges();
+    return entity;
   }
 }

@@ -13,7 +13,12 @@ public class ReportMunicipalityController(ReportMunicipalityService service, IMa
   public IActionResult Create([FromBody] ReportMunicipality view)
   {
     var report = mapper.Map<ReportMunicipality>(view);
-    service.Create(report.DateStart, report.DateEnd, report.Number, report.MunicipalityId);
+    var result = service.Create(
+      report.DateStart,
+      report.DateEnd,
+      report.Number,
+      report.MunicipalityId
+    );
     return this.Ok();
   }
 
@@ -31,7 +36,7 @@ public class ReportMunicipalityController(ReportMunicipalityService service, IMa
   [HttpGet]
   public IActionResult GetList([FromQuery] SieveModel param) => this.Ok(service.GetList(param));
 
-  [HttpDelete]
+  [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
     service.Delete(id);

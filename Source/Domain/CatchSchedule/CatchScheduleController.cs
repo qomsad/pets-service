@@ -12,8 +12,8 @@ public class CatchScheduleController(CatchScheduleService service, IMapper mappe
   public IActionResult Create([FromBody] CatchScheduleView view)
   {
     var catchSchedule = mapper.Map<CatchSchedule>(view);
-    service.Create(catchSchedule);
-    return this.Ok();
+    var result = service.Create(catchSchedule);
+    return this.Ok(result);
   }
 
   [HttpGet("{id}")]
@@ -35,11 +35,11 @@ public class CatchScheduleController(CatchScheduleService service, IMapper mappe
   {
     var catchSchedule = mapper.Map<CatchSchedule>(view);
     catchSchedule.Id = id;
-    service.Update(catchSchedule);
-    return this.Ok();
+    var result = service.Update(catchSchedule);
+    return this.Ok(result);
   }
 
-  [HttpDelete]
+  [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
     var catchSchedule = service.GetOne(id);
