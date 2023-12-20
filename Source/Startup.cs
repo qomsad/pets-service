@@ -2,6 +2,7 @@ namespace PetsService;
 
 using Microsoft.EntityFrameworkCore;
 using PetsService.Config;
+using PetsService.Domain;
 using PetsService.Infrastructure;
 using Sieve.Services;
 
@@ -32,6 +33,9 @@ public class Startup
       options => options.UseNpgsql(this.Configuration.GetConnectionString("pets"))
     );
     services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
+    services.AddAutoMapper(typeof(MapperProfile));
+
+    services.AddScoped<OrganizationService>();
   }
 
   public void Configure(IApplicationBuilder app)

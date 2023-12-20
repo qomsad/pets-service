@@ -6,8 +6,5 @@ using Sieve.Services;
 
 public class ApplicationSieveProcessor(IOptions<SieveOptions> options) : SieveProcessor(options)
 {
-  protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper)
-  {
-    return mapper;
-  }
+  protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper) => mapper;
 }

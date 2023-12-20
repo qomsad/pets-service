@@ -8,4 +8,5 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> context) : DbCont
   public DbSet<DictLegalType> DictLegalType { get; set; }
   public DbSet<DictMunicipality> DictMunicipality { get; set; }
   public DbSet<DictOrganizationType> DictOrganizationType { get; set; }
+  public DbSet<Organization> Organization { get; set; }
 }
