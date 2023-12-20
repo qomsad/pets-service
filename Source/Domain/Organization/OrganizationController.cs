@@ -30,7 +30,7 @@ public class OrganizationController(OrganizationService service, IMapper mapper)
   [HttpGet]
   public IActionResult GetList([FromQuery] SieveModel param) => this.Ok(service.GetList(param));
 
-  [HttpPut]
+  [HttpPut("{id}")]
   public IActionResult Update(long id, [FromBody] OrganizationView view)
   {
     var organization = mapper.Map<Organization>(view);

@@ -30,7 +30,7 @@ public class ContractController(ContractService service, IMapper mapper) : Contr
   [HttpGet]
   public IActionResult GetList([FromQuery] SieveModel param) => this.Ok(service.GetList(param));
 
-  [HttpPut]
+  [HttpPut("{id}")]
   public IActionResult Update(long id, [FromBody] ContractView view)
   {
     var contract = mapper.Map<Contract>(view);

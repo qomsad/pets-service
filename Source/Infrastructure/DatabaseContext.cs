@@ -14,4 +14,6 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> context) : DbCont
   public DbSet<AuthUser> AuthUser { get; set; }
   public DbSet<ContractCost> ContractCost { get; set; }
   public DbSet<Contract> Contract { get; set; }
+  public DbSet<CatchActCard> CatchActCard { get; set; }
+  public DbSet<CatchAct> CatchAct { get; set; }
 }

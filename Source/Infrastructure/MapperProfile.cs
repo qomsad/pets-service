@@ -10,5 +10,7 @@ public class MapperProfile : Profile
     this.CreateMap<OrganizationView, Organization>();
     this.CreateMap<ContractView, Contract>();
     this.CreateMap<ContractCostView, ContractCost>();
+    this.CreateMap<CatchActView, CatchAct>();
+    this.CreateMap<CatchActCardView, CatchActCard>();
   }
 }

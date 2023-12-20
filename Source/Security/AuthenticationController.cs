@@ -17,12 +17,12 @@ public class AuthenticationController(IConfiguration configuration, Authenticati
       "AuthenticationOptions in appsettings.json is null"
     );
 
-  [HttpGet]
-  public IActionResult Login(string login, string password)
+  [HttpPost]
+  public IActionResult Login([FromBody] LoginUser login)
   {
-    var user = service.GetUser(login);
+    var user = service.GetUser(login.Login);
 
-    if (user is null || user.Password != password)
+    if (user is null || user.Password != login.Password)
     {
       return this.Unauthorized();
     }
@@ -40,4 +40,10 @@ public class AuthenticationController(IConfiguration configuration, Authenticati
     var access = new JwtSecurityTokenHandler().WriteToken(token);
     return this.Ok(new { access_token = access, login = user.Login });
   }
+}
+
+public class LoginUser
+{
+  public required string Login { get; set; }
+  public required string Password { get; set; }
 }
