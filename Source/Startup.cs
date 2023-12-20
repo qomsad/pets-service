@@ -38,10 +38,12 @@ public class Startup
 
     services.AddScoped<OrganizationService>();
     services.AddScoped<AuthenticationService>();
+    services.AddScoped<ContractService>();
   }
 
   public void Configure(IApplicationBuilder app)
   {
+    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     app.UseCors("Default");
     app.UseRouting();
     app.UseAuthentication();

@@ -12,4 +12,6 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> context) : DbCont
   public DbSet<AuthPrivileges> AuthPrivileges { get; set; }
   public DbSet<AuthRole> AuthRole { get; set; }
   public DbSet<AuthUser> AuthUser { get; set; }
+  public DbSet<ContractCost> ContractCost { get; set; }
+  public DbSet<Contract> Contract { get; set; }
 }

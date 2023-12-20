@@ -7,6 +7,8 @@ public class MapperProfile : Profile
 {
   public MapperProfile()
   {
-    CreateMap<OrganizationView, Organization>();
+    this.CreateMap<OrganizationView, Organization>();
+    this.CreateMap<ContractView, Contract>();
+    this.CreateMap<ContractCostView, ContractCost>();
   }
 }
