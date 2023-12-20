@@ -13,5 +13,6 @@ public class MapperProfile : Profile
     this.CreateMap<CatchActView, CatchAct>();
     this.CreateMap<CatchActCardView, CatchActCard>();
     this.CreateMap<CatchScheduleView, CatchAct>();
+    this.CreateMap<ReportMunicipalityView, ReportMunicipality>();
   }
 }

@@ -18,4 +18,6 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> context) : DbCont
   public DbSet<CatchAct> CatchAct { get; set; }
   public DbSet<CatchScheduleStatus> CatchScheduleStatus { get; set; }
   public DbSet<CatchSchedule> CatchSchedule { get; set; }
+  public DbSet<ReportMunicipalityStatus> ReportMunicipalityStatus { get; set; }
+  public DbSet<ReportMunicipality> ReportMunicipality { get; set; }
 }
