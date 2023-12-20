@@ -78,4 +78,16 @@ public class ReportMunicipalityService(DatabaseContext repository, ISieveProcess
       .Include(e => e.Status)
       .Include(e => e.Municipality)
       .FirstOrDefault(o => o.Id == id);
+
+  public ReportMunicipality? UpdateStatus(long id, long status)
+  {
+    var report = repository.ReportMunicipality.Find(id);
+
+    if (report is not null)
+    {
+      report.StatusId = status;
+    }
+    repository.SaveChanges();
+    return report;
+  }
 }

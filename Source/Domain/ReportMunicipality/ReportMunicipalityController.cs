@@ -37,4 +37,11 @@ public class ReportMunicipalityController(ReportMunicipalityService service, IMa
     service.Delete(id);
     return this.Ok();
   }
+
+  [HttpPut("{id}")]
+  public IActionResult UpdateStatus(long id, [FromBody] ReportMunicipalityStatusView view)
+  {
+    var result = service.UpdateStatus(id, view.StatusId);
+    return this.Ok(result);
+  }
 }
