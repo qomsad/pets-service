@@ -87,6 +87,7 @@ public class ReportMunicipalityService(DatabaseContext repository, ISieveProcess
     if (report is not null)
     {
       report.StatusId = status;
+      report.DateStatus = DateTime.Now;
     }
     repository.SaveChanges();
     return report;
