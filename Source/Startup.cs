@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PetsService.Config;
 using PetsService.Domain;
 using PetsService.Infrastructure;
+using PetsService.Security;
 using Sieve.Services;
 
 public class Startup
@@ -36,6 +37,7 @@ public class Startup
     services.AddAutoMapper(typeof(MapperProfile));
 
     services.AddScoped<OrganizationService>();
+    services.AddScoped<AuthenticationService>();
   }
 
   public void Configure(IApplicationBuilder app)

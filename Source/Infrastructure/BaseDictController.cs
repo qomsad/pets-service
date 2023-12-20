@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
 
-[ApiController]
+[ApiController, Authorize]
 public abstract class BaseDictController<T>(DatabaseContext context, ISieveProcessor sieve)
   : ControllerBase
   where T : class

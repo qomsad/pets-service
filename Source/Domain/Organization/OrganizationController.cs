@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
-[Route("organizations"), ApiController]
+[Route("organizations"), ApiController, Authorize]
 public class OrganizationController(OrganizationService service, IMapper mapper) : ControllerBase
 {
   [HttpPost]

@@ -9,4 +9,7 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> context) : DbCont
   public DbSet<DictMunicipality> DictMunicipality { get; set; }
   public DbSet<DictOrganizationType> DictOrganizationType { get; set; }
   public DbSet<Organization> Organization { get; set; }
+  public DbSet<AuthPrivileges> AuthPrivileges { get; set; }
+  public DbSet<AuthRole> AuthRole { get; set; }
+  public DbSet<AuthUser> AuthUser { get; set; }
 }
