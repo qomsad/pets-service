@@ -19,7 +19,7 @@ public class ReportMunicipalityController(ReportMunicipalityService service, IMa
       report.Number,
       report.MunicipalityId
     );
-    return this.Ok();
+    return this.Ok(result);
   }
 
   [HttpGet("{id}")]
