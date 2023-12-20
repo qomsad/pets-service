@@ -12,7 +12,7 @@ public class MapperProfile : Profile
     this.CreateMap<ContractCostView, ContractCost>();
     this.CreateMap<CatchActView, CatchAct>();
     this.CreateMap<CatchActCardView, CatchActCard>();
-    this.CreateMap<CatchScheduleView, CatchAct>();
+    this.CreateMap<CatchScheduleView, CatchSchedule>();
     this.CreateMap<ReportMunicipalityView, ReportMunicipality>();
   }
 }

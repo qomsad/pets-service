@@ -12,6 +12,7 @@ public class CatchScheduleController(CatchScheduleService service, IMapper mappe
   public IActionResult Create([FromBody] CatchScheduleView view)
   {
     var catchSchedule = mapper.Map<CatchSchedule>(view);
+    catchSchedule.StatusId = 1;
     var result = service.Create(catchSchedule);
     return this.Ok(result);
   }
