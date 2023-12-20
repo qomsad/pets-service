@@ -16,4 +16,6 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> context) : DbCont
   public DbSet<Contract> Contract { get; set; }
   public DbSet<CatchActCard> CatchActCard { get; set; }
   public DbSet<CatchAct> CatchAct { get; set; }
+  public DbSet<CatchScheduleStatus> CatchScheduleStatus { get; set; }
+  public DbSet<CatchSchedule> CatchSchedule { get; set; }
 }

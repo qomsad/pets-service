@@ -40,6 +40,7 @@ public class Startup
     services.AddScoped<AuthenticationService>();
     services.AddScoped<ContractService>();
     services.AddScoped<CatchActService>();
+    services.AddScoped<CatchScheduleService>();
   }
 
   public void Configure(IApplicationBuilder app)
