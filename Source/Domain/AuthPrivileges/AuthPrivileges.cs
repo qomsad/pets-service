@@ -20,7 +20,4 @@ public class AuthPrivileges
 
   [Column("role_id")]
   public long AuthRoleId { get; set; }
-
-  [ForeignKey(nameof(AuthRoleId))]
-  public required AuthRole Role { get; set; }
 }

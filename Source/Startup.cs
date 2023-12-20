@@ -42,6 +42,9 @@ public class Startup
     services.AddScoped<CatchActService>();
     services.AddScoped<CatchScheduleService>();
     services.AddScoped<ReportMunicipalityService>();
+
+    services.AddScoped<AuthUserService>();
+    services.AddScoped<LogInfoService>();
   }
 
   public void Configure(IApplicationBuilder app)
