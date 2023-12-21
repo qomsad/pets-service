@@ -12,21 +12,29 @@ public class CatchActService(DatabaseContext c, ISieveProcessor s, PermissionSer
 {
   public override Pagination<CatchAct> GetList(SieveModel param, IIdentity? identity)
   {
-    var repository = this.Context
-      .CatchAct
-      .Include(e => e.Municipality)
-      .Include(e => e.Organization)
-      .Include(e => e.CatchActCards);
+    var repository = this.Repository(identity);
     var data = this.Sieve.Apply(param, repository);
     var total = this.Sieve.Apply(new SieveModel { Filters = param.Filters }, repository).Count();
     return new Pagination<CatchAct> { Data = data, Total = total };
   }
 
   public override CatchAct? GetOne(long id, IIdentity? identity) =>
-    this.Context
+    this.Repository(identity).FirstOrDefault(o => o.Id == id);
+
+  private IQueryable<CatchAct> Repository(IIdentity? identity)
+  {
+    var user = this.Permissions.GetUser(identity);
+    var permission = this.Permissions.SelectRestrictions(identity, "CATCH_ACT");
+    return this.Context
       .CatchAct
       .Include(e => e.Municipality)
       .Include(e => e.Organization)
       .Include(e => e.CatchActCards)
-      .FirstOrDefault(o => o.Id == id);
+      .Where(
+        o =>
+          (permission == "ALL")
+          || (permission == "MUN" && (o.MunicipalityId == user!.MunicipalityId))
+          || (permission == "ORG" && (o.OrganizationId == user!.OrganizationId))
+      );
+  }
 }
