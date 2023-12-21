@@ -19,7 +19,7 @@ public class CatchActController(CatchActService service, IMapper mapper) : Contr
   [HttpGet("{id}")]
   public IActionResult GetOne(long id)
   {
-    var catchAct = service.GetOne(id);
+    var catchAct = service.GetOne(id, this.User.Identity);
     if (catchAct is null)
     {
       return this.NotFound();
@@ -28,7 +28,8 @@ public class CatchActController(CatchActService service, IMapper mapper) : Contr
   }
 
   [HttpGet]
-  public IActionResult GetList([FromQuery] SieveModel param) => this.Ok(service.GetList(param));
+  public IActionResult GetList([FromQuery] SieveModel param) =>
+    this.Ok(service.GetList(param, this.User.Identity));
 
   [HttpPut("{id}")]
   public IActionResult Update(long id, [FromBody] CatchActView view)
@@ -42,7 +43,7 @@ public class CatchActController(CatchActService service, IMapper mapper) : Contr
   [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
-    var catchAct = service.GetOne(id);
+    var catchAct = service.GetOne(id, this.User.Identity);
     if (catchAct is null)
     {
       return this.NotFound();

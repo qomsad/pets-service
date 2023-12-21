@@ -1,13 +1,16 @@
 namespace PetsService.Domain;
 
+using System.Security.Principal;
 using Microsoft.EntityFrameworkCore;
 using PetsService.Infrastructure;
+using PetsService.Security;
 using Sieve.Models;
 using Sieve.Services;
 
-public class ContractService(DatabaseContext c, ISieveProcessor s) : BaseService<Contract>(c, s)
+public class ContractService(DatabaseContext c, ISieveProcessor s, PermissionService p)
+  : BaseService<Contract>(c, s, p)
 {
-  public override Pagination<Contract> GetList(SieveModel param)
+  public override Pagination<Contract> GetList(SieveModel param, IIdentity? identity)
   {
     var repository = this.Context
       .Contract
@@ -24,7 +27,7 @@ public class ContractService(DatabaseContext c, ISieveProcessor s) : BaseService
     return new Pagination<Contract> { Data = data, Total = total };
   }
 
-  public override Contract? GetOne(long id) =>
+  public override Contract? GetOne(long id, IIdentity? identity) =>
     this.Context
       .Contract
       .Include(e => e.Contractor)

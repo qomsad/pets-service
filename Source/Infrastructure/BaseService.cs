@@ -1,13 +1,20 @@
 namespace PetsService.Infrastructure;
 
+using System.Security.Principal;
+using PetsService.Security;
 using Sieve.Models;
 using Sieve.Services;
 
-public abstract class BaseService<T>(DatabaseContext context, ISieveProcessor sieve)
+public abstract class BaseService<T>(
+  DatabaseContext context,
+  ISieveProcessor sieve,
+  PermissionService permission
+)
   where T : class
 {
   protected DatabaseContext Context { get; } = context;
   protected ISieveProcessor Sieve { get; } = sieve;
+  protected PermissionService Permissions { get; } = permission;
 
   public T Create(T entity)
   {
@@ -16,9 +23,9 @@ public abstract class BaseService<T>(DatabaseContext context, ISieveProcessor si
     return entity;
   }
 
-  public abstract T? GetOne(long id);
+  public abstract T? GetOne(long id, IIdentity? identity);
 
-  public abstract Pagination<T> GetList(SieveModel param);
+  public abstract Pagination<T> GetList(SieveModel param, IIdentity? identity);
 
   public void Delete(T entity)
   {

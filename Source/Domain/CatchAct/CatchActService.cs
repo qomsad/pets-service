@@ -1,13 +1,16 @@
 namespace PetsService.Domain;
 
+using System.Security.Principal;
 using Microsoft.EntityFrameworkCore;
 using PetsService.Infrastructure;
+using PetsService.Security;
 using Sieve.Models;
 using Sieve.Services;
 
-public class CatchActService(DatabaseContext c, ISieveProcessor s) : BaseService<CatchAct>(c, s)
+public class CatchActService(DatabaseContext c, ISieveProcessor s, PermissionService p)
+  : BaseService<CatchAct>(c, s, p)
 {
-  public override Pagination<CatchAct> GetList(SieveModel param)
+  public override Pagination<CatchAct> GetList(SieveModel param, IIdentity? identity)
   {
     var repository = this.Context
       .CatchAct
@@ -19,7 +22,7 @@ public class CatchActService(DatabaseContext c, ISieveProcessor s) : BaseService
     return new Pagination<CatchAct> { Data = data, Total = total };
   }
 
-  public override CatchAct? GetOne(long id) =>
+  public override CatchAct? GetOne(long id, IIdentity? identity) =>
     this.Context
       .CatchAct
       .Include(e => e.Municipality)

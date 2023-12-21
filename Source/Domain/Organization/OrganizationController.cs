@@ -3,14 +3,23 @@ namespace PetsService.Domain;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetsService.Security;
 using Sieve.Models;
 
 [Route("organizations"), ApiController, Authorize]
-public class OrganizationController(OrganizationService service, IMapper mapper) : ControllerBase
+public class OrganizationController(
+  OrganizationService service,
+  IMapper mapper,
+  PermissionService permissions
+) : ControllerBase
 {
   [HttpPost]
   public IActionResult Create([FromBody] OrganizationView view)
   {
+    if (!permissions.CanCreate(this.User.Identity, "ORGANIZATION"))
+    {
+      return this.NoPermissions();
+    }
     var organization = mapper.Map<Organization>(view);
     var result = service.Create(organization);
     return this.Ok(result);
@@ -19,7 +28,7 @@ public class OrganizationController(OrganizationService service, IMapper mapper)
   [HttpGet("{id}")]
   public IActionResult GetOne(long id)
   {
-    var organization = service.GetOne(id);
+    var organization = service.GetOne(id, this.User.Identity);
     if (organization is null)
     {
       return this.NotFound();
@@ -28,11 +37,16 @@ public class OrganizationController(OrganizationService service, IMapper mapper)
   }
 
   [HttpGet]
-  public IActionResult GetList([FromQuery] SieveModel param) => this.Ok(service.GetList(param));
+  public IActionResult GetList([FromQuery] SieveModel param) =>
+    this.Ok(service.GetList(param, this.User.Identity));
 
   [HttpPut("{id}")]
   public IActionResult Update(long id, [FromBody] OrganizationView view)
   {
+    if (!permissions.CanUpdate(this.User.Identity, "ORGANIZATION"))
+    {
+      return this.NoPermissions();
+    }
     var organization = mapper.Map<Organization>(view);
     organization.Id = id;
     var result = service.Update(organization);
@@ -42,7 +56,11 @@ public class OrganizationController(OrganizationService service, IMapper mapper)
   [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
-    var organization = service.GetOne(id);
+    if (!permissions.CanDelete(this.User.Identity, "ORGANIZATION"))
+    {
+      return this.NoPermissions();
+    }
+    var organization = service.GetOne(id, this.User.Identity);
     if (organization is null)
     {
       return this.NotFound();

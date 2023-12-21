@@ -20,7 +20,7 @@ public class CatchScheduleController(CatchScheduleService service, IMapper mappe
   [HttpGet("{id}")]
   public IActionResult GetOne(long id)
   {
-    var catchSchedule = service.GetOne(id);
+    var catchSchedule = service.GetOne(id, this.User.Identity);
     if (catchSchedule is null)
     {
       return this.NotFound();
@@ -29,7 +29,8 @@ public class CatchScheduleController(CatchScheduleService service, IMapper mappe
   }
 
   [HttpGet]
-  public IActionResult GetList([FromQuery] SieveModel param) => this.Ok(service.GetList(param));
+  public IActionResult GetList([FromQuery] SieveModel param) =>
+    this.Ok(service.GetList(param, this.User.Identity));
 
   [HttpPut("{id}")]
   public IActionResult Update(long id, [FromBody] CatchScheduleView view)
@@ -43,7 +44,7 @@ public class CatchScheduleController(CatchScheduleService service, IMapper mappe
   [HttpDelete("{id}")]
   public IActionResult Delete(long id)
   {
-    var catchSchedule = service.GetOne(id);
+    var catchSchedule = service.GetOne(id, this.User.Identity);
     if (catchSchedule is null)
     {
       return this.NotFound();
