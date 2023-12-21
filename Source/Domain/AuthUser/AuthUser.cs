@@ -2,14 +2,20 @@ namespace PetsService.Domain;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Sieve.Attributes;
 
 [Table("auth_user")]
 public class AuthUser
 {
-  [Column("id"), Key, DatabaseGenerated(DatabaseGeneratedOption.Identity),]
+  [
+    Column("id"),
+    Key,
+    DatabaseGenerated(DatabaseGeneratedOption.Identity),
+    Sieve(CanSort = true, CanFilter = true)
+  ]
   public long Id { get; set; }
 
-  [Column("login")]
+  [Column("login"), Sieve(CanSort = true, CanFilter = true)]
   public required string Login { get; set; }
 
   [Column("password")]
