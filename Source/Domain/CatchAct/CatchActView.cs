@@ -12,5 +12,5 @@ public class CatchActView
 
   public DateOnly CaptureDate { get; set; }
 
-  public required ICollection<CatchActCard> CatchActCards { get; set; }
+  public required ICollection<CatchActCardView> CatchActCards { get; set; }
 }

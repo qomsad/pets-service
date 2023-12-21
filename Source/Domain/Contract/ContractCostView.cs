@@ -6,7 +6,5 @@ public class ContractCostView
 
   public double Price { get; set; }
 
-  public int ContractId { get; set; }
-
   public int MunicipalityId { get; set; }
 }

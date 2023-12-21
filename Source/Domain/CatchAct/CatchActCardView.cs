@@ -4,6 +4,8 @@ public class CatchActCardView
 {
   public long Id { get; set; }
 
+  public required string Category { get; set; }
+
   public required string Sex { get; set; }
 
   public string? Breed { get; set; }
