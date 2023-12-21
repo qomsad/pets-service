@@ -12,12 +12,19 @@ public class CatchScheduleService(DatabaseContext c, ISieveProcessor s, Permissi
 {
   public override Pagination<CatchSchedule> GetList(SieveModel param, IIdentity? identity)
   {
-    var repository = this.Context.CatchSchedule.Include(e => e.Status);
+    var repository = this.Repository(identity);
     var data = this.Sieve.Apply(param, repository);
     var total = this.Sieve.Apply(new SieveModel { Filters = param.Filters }, repository).Count();
     return new Pagination<CatchSchedule> { Data = data, Total = total };
   }
 
   public override CatchSchedule? GetOne(long id, IIdentity? identity) =>
-    this.Context.CatchSchedule.Include(e => e.Status).FirstOrDefault(o => o.Id == id);
+    this.Repository(identity).FirstOrDefault(o => o.Id == id);
+
+  public IQueryable<CatchSchedule> Repository(IIdentity? identity)
+  {
+    var user = this.Permissions.GetUser(identity);
+    var permission = this.Permissions.SelectRestrictions(identity, "CATCH_SCHEDULE");
+    return this.Context.CatchSchedule.Include(e => e.Status).Where(o => permission == "ALL");
+  }
 }
