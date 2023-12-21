@@ -1,8 +1,10 @@
 namespace PetsService.Domain;
 
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetsService.Infrastructure;
 using PetsService.Security;
 using Sieve.Models;
 
@@ -10,7 +12,8 @@ using Sieve.Models;
 public class CatchActController(
   CatchActService service,
   IMapper mapper,
-  PermissionService permissions
+  PermissionService permissions,
+  LogInfoService log
 ) : ControllerBase
 {
   [HttpPost]
@@ -22,6 +25,13 @@ public class CatchActController(
     }
     var catchAct = mapper.Map<CatchAct>(view);
     var result = service.Create(catchAct);
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(result),
+      nameof(CatchAct),
+      result.Id,
+      nameof(this.Create)
+    );
     return this.Ok(result);
   }
 
@@ -50,6 +60,13 @@ public class CatchActController(
     var catchAct = mapper.Map<CatchAct>(view);
     catchAct.Id = id;
     var result = service.Update(catchAct);
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(result),
+      nameof(CatchAct),
+      result.Id,
+      nameof(this.Update)
+    );
     return this.Ok(result);
   }
 
@@ -66,7 +83,13 @@ public class CatchActController(
       return this.NotFound();
     }
     service.Delete(catchAct);
-
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(catchAct),
+      nameof(CatchAct),
+      catchAct.Id,
+      nameof(this.Delete)
+    );
     return this.Ok();
   }
 }

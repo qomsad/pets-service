@@ -2,7 +2,7 @@ namespace PetsService.Infrastructure;
 
 public class LogInfoService(DatabaseContext context)
 {
-  public void Write(string user, string entity, string registry, long id, string action)
+  public void Write(string? user, string entity, string registry, long id, string action)
   {
     var log = new LogInfo
     {
@@ -14,5 +14,6 @@ public class LogInfoService(DatabaseContext context)
       ObjectId = id
     };
     context.LogInfo.Add(log);
+    context.SaveChanges();
   }
 }

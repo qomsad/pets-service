@@ -1,13 +1,18 @@
 namespace PetsService.Domain;
 
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetsService.Infrastructure;
 using Sieve.Models;
 
 [Route("report_municipality"), ApiController, Authorize]
-public class ReportMunicipalityController(ReportMunicipalityService service, IMapper mapper)
-  : ControllerBase
+public class ReportMunicipalityController(
+  ReportMunicipalityService service,
+  IMapper mapper,
+  LogInfoService log
+) : ControllerBase
 {
   [HttpPost]
   public IActionResult Create([FromBody] ReportMunicipality view)
@@ -18,6 +23,13 @@ public class ReportMunicipalityController(ReportMunicipalityService service, IMa
       report.DateEnd,
       report.Number,
       report.MunicipalityId
+    );
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(result),
+      nameof(ReportMunicipality),
+      result.Id,
+      nameof(this.Create)
     );
     return this.Ok(result);
   }
@@ -40,6 +52,7 @@ public class ReportMunicipalityController(ReportMunicipalityService service, IMa
   public IActionResult Delete(long id)
   {
     service.Delete(id);
+    log.Write(this.User.Identity!.Name, "", nameof(ReportMunicipality), id, nameof(this.Delete));
     return this.Ok();
   }
 
@@ -47,6 +60,13 @@ public class ReportMunicipalityController(ReportMunicipalityService service, IMa
   public IActionResult UpdateStatus(long id, [FromBody] ReportMunicipalityStatusView view)
   {
     var result = service.UpdateStatus(id, view.StatusId);
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(result),
+      nameof(ReportMunicipality),
+      result!.Id,
+      nameof(this.UpdateStatus)
+    );
     return this.Ok(result);
   }
 }

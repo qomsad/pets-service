@@ -1,8 +1,10 @@
 namespace PetsService.Domain;
 
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetsService.Infrastructure;
 using PetsService.Security;
 using Sieve.Models;
 
@@ -10,7 +12,8 @@ using Sieve.Models;
 public class CatchScheduleController(
   CatchScheduleService service,
   IMapper mapper,
-  PermissionService permissions
+  PermissionService permissions,
+  LogInfoService log
 ) : ControllerBase
 {
   [HttpPost]
@@ -23,6 +26,13 @@ public class CatchScheduleController(
     var catchSchedule = mapper.Map<CatchSchedule>(view);
     catchSchedule.StatusId = 1;
     var result = service.Create(catchSchedule);
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(result),
+      nameof(CatchSchedule),
+      result.Id,
+      nameof(this.Create)
+    );
     return this.Ok(result);
   }
 
@@ -51,6 +61,13 @@ public class CatchScheduleController(
     var catchSchedule = mapper.Map<CatchSchedule>(view);
     catchSchedule.Id = id;
     var result = service.Update(catchSchedule);
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(result),
+      nameof(CatchSchedule),
+      result.Id,
+      nameof(this.Update)
+    );
     return this.Ok(result);
   }
 
@@ -67,7 +84,13 @@ public class CatchScheduleController(
       return this.NotFound();
     }
     service.Delete(catchSchedule);
-
+    log.Write(
+      this.User.Identity!.Name,
+      JsonSerializer.Serialize(catchSchedule),
+      nameof(CatchSchedule),
+      catchSchedule.Id,
+      nameof(this.Delete)
+    );
     return this.Ok();
   }
 }
