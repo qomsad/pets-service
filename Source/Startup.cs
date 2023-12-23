@@ -46,6 +46,7 @@ public class Startup
     services.AddScoped<AuthUserService>();
     services.AddScoped<LogInfoService>();
     services.AddScoped<PermissionService>();
+    services.AddHttpContextAccessor();
   }
 
   public void Configure(IApplicationBuilder app)

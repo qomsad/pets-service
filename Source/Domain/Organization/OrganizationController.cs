@@ -1,10 +1,8 @@
 namespace PetsService.Domain;
 
-using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PetsService.Infrastructure;
 using PetsService.Security;
 using Sieve.Models;
 
@@ -12,8 +10,7 @@ using Sieve.Models;
 public class OrganizationController(
   OrganizationService service,
   IMapper mapper,
-  PermissionService permissions,
-  LogInfoService log
+  PermissionService permissions
 ) : ControllerBase
 {
   [HttpPost]
@@ -25,13 +22,6 @@ public class OrganizationController(
     }
     var organization = mapper.Map<Organization>(view);
     var result = service.Create(organization);
-    log.Write(
-      this.User.Identity!.Name,
-      JsonSerializer.Serialize(result),
-      nameof(Organization),
-      result.Id,
-      nameof(this.Create)
-    );
     return this.Ok(result);
   }
 
@@ -60,13 +50,6 @@ public class OrganizationController(
     var organization = mapper.Map<Organization>(view);
     organization.Id = id;
     var result = service.Update(organization);
-    log.Write(
-      this.User.Identity!.Name,
-      JsonSerializer.Serialize(result),
-      nameof(Organization),
-      result.Id,
-      nameof(this.Update)
-    );
     return this.Ok(result);
   }
 
@@ -83,13 +66,6 @@ public class OrganizationController(
       return this.NotFound();
     }
     service.Delete(organization);
-    log.Write(
-      this.User.Identity!.Name,
-      JsonSerializer.Serialize(organization),
-      nameof(Organization),
-      organization.Id,
-      nameof(this.Delete)
-    );
 
     return this.Ok();
   }
