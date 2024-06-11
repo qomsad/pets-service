@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  pg:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "docker"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "local"
+    ports:
+      - "5432:5432"
